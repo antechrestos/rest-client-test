@@ -87,10 +87,10 @@ public final class Context {
 				this.requestPayload = loadPayload(requestPayload.getValue());
 				break;
 			default:
-				this.requestPayload = new byte[0];
+				this.requestPayload = null;
 			}
 		} else {
-			this.requestPayload = new byte[0];
+			this.requestPayload = null;
 		}
 		if (responsePayload != null) {
 			switch (responsePayload.getType()) {

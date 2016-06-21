@@ -81,6 +81,18 @@ public class MockClientHttpRequestFactoryTest {
 	}
 
 	@Test
+	public void no_check_on_request_body_should_succeed() {
+		this.clientHttpRequestFactory.register(
+				Context.builder()
+						.url("http://somewhere.org")
+						.statusCode(HttpStatus.OK)
+						.method(HttpMethod.GET)
+						.build()
+		);
+		this.restTemplate.exchange("http://somewhere.org", HttpMethod.GET, new HttpEntity<>("some body"), String.class);
+	}
+
+	@Test
 	public void good_response_status_code_and_body_is_returned() {
 		this.clientHttpRequestFactory.register(
 				Context.builder()

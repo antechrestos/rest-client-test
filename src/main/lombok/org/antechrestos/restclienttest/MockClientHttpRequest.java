@@ -17,7 +17,6 @@
 package org.antechrestos.restclienttest;
 
 import lombok.Getter;
-import org.junit.Assert;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
@@ -29,8 +28,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 class MockClientHttpRequest implements ClientHttpRequest {
 
@@ -66,7 +64,10 @@ class MockClientHttpRequest implements ClientHttpRequest {
 	}
 
 	private void checkBody() throws IOException {
-		Assert.assertArrayEquals(this.context.getRequestPayload(), this.body.toByteArray());
+		if (this.context.getRequestPayload() != null) {
+			assertArrayEquals(this.context.getRequestPayload(), this.body.toByteArray());
+		}
+
 	}
 
 	private void checkHeaders() {

@@ -4,7 +4,9 @@
 
 This project brings you a simple library to mock spring rest template in order to test your client.
 
-Example: The following example register a `POST` that  made on `http://somewhere.org`, with the body `"some body"` that will return a `OK` status code with . The call to `restTemplate`must be a `GET` on the matching `url`. The call will return `"some body"` as a response.
+Example: The following example registers a `POST` made on `http://somewhere.org`, with the request body `"some body"`. This call will return a `OK` status code with the content of the file found in classpath `fixtures/POST.json`.
+
+The call to `restTemplate` must be a `POST` on the matching `url`. The call will check that the body submitted matched the one given at context registration.
 
 ```java
 restTemplate.setRequestFactory(clientHttpRequestFactory);
