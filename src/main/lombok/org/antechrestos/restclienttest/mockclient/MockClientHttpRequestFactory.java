@@ -37,12 +37,15 @@ public class MockClientHttpRequestFactory implements ClientHttpRequestFactory {
 
 	@Override
 	public ClientHttpRequest createRequest(URI url, HttpMethod method) throws IOException {
-		Map<URI, Context> contextForMethod = this.contexts.get(method);
-		assertNotNull("No context registered for method " + method.name(), contextForMethod);
-		Map<String, List<String>> queriedParameters = URIHelper.getQueryParameters(url);
 		URI urlWithoutQueriedParameters = URIHelper.removeQueryParameters(url);
+		Map<String, List<String>> queriedParameters = URIHelper.getQueryParameters(url);
+		final String noContextForRequest = "No registered context for  "+method+ " on "+urlWithoutQueriedParameters;
+
+		Map<URI, Context> contextForMethod = this.contexts.get(method);
+		assertNotNull(noContextForRequest, contextForMethod);
+
 		Context context = contextForMethod.get(urlWithoutQueriedParameters);
-		assertNotNull("No " + method.name() + " context registered for url " + urlWithoutQueriedParameters, context);
+		assertNotNull(noContextForRequest, context);
 		return new MockClientHttpRequest(context, queriedParameters);
 	}
 
