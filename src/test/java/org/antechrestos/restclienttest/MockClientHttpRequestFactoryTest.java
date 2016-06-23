@@ -16,6 +16,9 @@
 
 package org.antechrestos.restclienttest;
 
+import org.antechrestos.restclienttest.context.Context;
+import org.antechrestos.restclienttest.context.Payload;
+import org.antechrestos.restclienttest.mockclient.MockClientHttpRequestFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
@@ -187,5 +190,35 @@ public class MockClientHttpRequestFactoryTest {
 		this.restTemplate.exchange("http://somewhere.org", HttpMethod.GET, HttpEntity.EMPTY, String.class);
 
 	}
+
+	@Test(expected = AssertionError.class)
+	public void query_set_by_url_are_checked(){
+		this.clientHttpRequestFactory.register(
+				Context.builder()
+						.url("http://somewhere.org?param1=value1&param2=value2")
+						.statusCode(HttpStatus.OK)
+						.method(HttpMethod.GET)
+						.build()
+		);
+		//here we submit a missing value
+		this.restTemplate.exchange("http://somewhere.org?param1=value1", HttpMethod.GET, HttpEntity.EMPTY, String.class);
+	}
+
+	@Test(expected = AssertionError.class)
+	public void query_set_by_map_are_checked(){
+		this.clientHttpRequestFactory.register(
+				Context.builder()
+						.url("http://somewhere.org")
+						.queryParameter("param1", Collections.singletonList("value1"))
+						.queryParameter("param2", Collections.singletonList("value2"))
+						.statusCode(HttpStatus.OK)
+						.method(HttpMethod.GET)
+						.build()
+		);
+		//here we submit a bad value
+		this.restTemplate.exchange("http://somewhere.org?param1=value1&param2=value3", HttpMethod.GET, HttpEntity.EMPTY, String.class);
+	}
+
+
 
 }
