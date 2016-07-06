@@ -1,7 +1,18 @@
 /*
- * Copyright 2013-&amp;#36;today.year the original author or authors.&#10;&#10;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you may not use this file except in compliance with the License.&#10;You may obtain a copy of the License at&#10;&#10;     http://www.apache.org/licenses/LICENSE-2.0&#10;&#10;Unless required by applicable law or agreed to in writing, software&#10;distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#10;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#10;See the License for the specific language governing permissions and&#10;limitations under the License.
+ * Copyright 2013-2016 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package org.antechrestos.restclienttest.context;
 
 import lombok.Builder;
@@ -25,6 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * This class is the one holding a request context
+ */
 @Data
 public final class Context {
 
@@ -53,20 +67,44 @@ public final class Context {
 		}
 	}
 
+	/**
+	 * The method invoked
+	 */
 	private final HttpMethod method;
 
+	/**
+	 * The expected query parameters
+	 */
 	private final Map<String, List<String>> queryParameters;
 
+	/**
+	 * The expected http headers
+	 */
 	private final HttpHeaders requestHeaders;
 
+	/**
+	 * The expected request payload. See {@link Payload}
+	 */
 	private final byte[] requestPayload;
 
+	/**
+	 * The response headers that will be returned
+	 */
 	private final HttpHeaders responseHeaders;
 
+	/**
+	 * The response payload that will be returned. See {@link Payload}
+	 */
 	private final byte[] responsePayload;
 
+	/**
+	 * The status code that will be returned
+	 */
 	private final HttpStatus statusCode;
 
+	/**
+	 * The context url (with or without query parameters)
+	 */
 	private final URI url;
 
 	@Builder
