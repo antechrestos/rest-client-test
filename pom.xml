@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.restclienttest</groupId>
     <artifactId>restclienttest-core</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>rest-client-test</name>
     <packaging>jar</packaging>
     <description>A basic library that allows you to spring rest template on client side.</description>
