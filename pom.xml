@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.restclienttest</groupId>
-    <artifactId>restclienttest-core</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <groupId>com.github.antechrestos</groupId>
+    <artifactId>restclienttest</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <name>rest-client-test</name>
     <packaging>jar</packaging>
     <description>A basic library that allows you to spring rest template on client side.</description>
@@ -121,6 +121,26 @@
                         <version>1.8.1</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -138,6 +158,17 @@
             <email>antechrestos@gmail.com</email>
         </developer>
     </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <scm>
         <connection>scm:git:git@github.com:antechrestos/rest-client-test.git</connection>
