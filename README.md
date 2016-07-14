@@ -53,24 +53,13 @@ The response body returned. You may either specify a `Payload.Type.RAW_STRING` o
 
 ## Add to your project
 
-Add the dependancy to your project by using [jitpack](https://jitpack.io):
+Add the dependency to your project by using maven:
 
 ```xml
-<dependencies>
-	...
-	<dependency>
-	    <groupId>com.github.antechrestos</groupId>
-	    <artifactId>rest-client-test</artifactId>
-	    <version>TAG|BRANCH|COMMIT</version>
-	</dependency>
-	...
-</dependencies>
-
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
+<dependency>
+    <groupId>com.github.antechrestos</groupId>
+    <artifactId>restclienttest</artifactId>
+    <version>1.0.0</version>
+</dependency>
 
 ```
