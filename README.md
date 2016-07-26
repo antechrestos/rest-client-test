@@ -1,4 +1,4 @@
-# Rest Client Test
+# Rest Client Test [![maven](http://img.shields.io/maven-central/v/com.github.antechrestos/restclienttest.svg)]() [![license](https://img.shields.io/github/license/antechrestos/rest-client-test.svg)]()
 
 ## Description
 
