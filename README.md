@@ -13,16 +13,17 @@ restTemplate.setRequestFactory(clientHttpRequestFactory);
 clientHttpRequestFactory.register(
 		Context.builder()
 				.url("http://somewhere.org")
+				.queryParameter("some_parameter", Collections.singletonList("some_value"))
 				.statusCode(HttpStatus.OK)
 				.method(HttpMethod.POST)
 				.requestPayload(Payload.builder()
 						.type(Payload.Type.RAW_STRING)
 						.value("some body")
 						.build())
-                .requestPayload(Payload.builder()
-                        .type(Payload.Type.CLASSPATH_RESOURCE)
-                        .value("fixtures/POST.json")
-                        .build())
+     				.responsePayload(Payload.builder()
+      						.type(Payload.Type.CLASSPATH_RESOURCE)
+						.value("fixtures/POST.json")
+						.build())
 				.build()
 );
 // use restTemplate
