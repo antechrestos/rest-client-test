@@ -29,7 +29,7 @@ clientHttpRequestFactory.register(
 // use restTemplate
 ```
 
-###Query parameters
+### Query parameters
 
 Query parameters may either be specified in the `url`creation paramers, or by using the `builder` method `queryParameter`. If both way are used, the checked query parameters will be a merge of the two methods.
 They are checked when the call is made.
