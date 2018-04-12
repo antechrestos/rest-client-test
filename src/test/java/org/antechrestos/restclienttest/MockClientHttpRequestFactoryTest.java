@@ -31,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class MockClientHttpRequestFactoryTest {
 
@@ -219,6 +220,27 @@ public class MockClientHttpRequestFactoryTest {
 		this.restTemplate.exchange("http://somewhere.org?param1=value1&param2=value3", HttpMethod.GET, HttpEntity.EMPTY, String.class);
 	}
 
+	@Test
+	public void check_body_fails_with_message(){
+		this.clientHttpRequestFactory.register(
+				Context.builder()
+						.url("http://somewhere.org")
+						.method(HttpMethod.POST)
+						.requestPayload(Payload.builder()
+								.type(Payload.Type.RAW_STRING)
+								.value("the expected body")
+								.build())
+						.statusCode(HttpStatus.OK)
+						.build());
+		//here we submit a bad payload
+        try{
+            this.restTemplate.exchange("http://somewhere.org?param1=value1&param2=value3", HttpMethod.POST, new HttpEntity<>("the bad body"), String.class);
+            fail("Should have failed");
+        }catch (AssertionError ase){
+            assertEquals(ase.getMessage(), "actual request body [the bad body] doesn't match expected [the expected body]");
+        }
+
+	}
 
 
 }

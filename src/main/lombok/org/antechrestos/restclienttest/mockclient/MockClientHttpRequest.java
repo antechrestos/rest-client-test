@@ -73,7 +73,14 @@ class MockClientHttpRequest implements ClientHttpRequest {
 
 	private void checkBody() throws IOException {
 		if (this.context.getRequestPayload() != null) {
-			assertArrayEquals(this.context.getRequestPayload(), this.body.toByteArray());
+            byte[] bytes = this.body.toByteArray();
+            try {
+                assertArrayEquals(this.context.getRequestPayload(), bytes);
+            } catch (AssertionError ae){
+                throw new AssertionError(String.format("actual request body [%s] doesn't match expected [%s]",
+                        new String(bytes),
+                        new String(this.context.getRequestPayload())));
+            }
 		}
 
 	}
