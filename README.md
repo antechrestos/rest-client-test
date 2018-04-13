@@ -60,7 +60,7 @@ Add the dependency to your project by using maven:
 <dependency>
     <groupId>com.github.antechrestos</groupId>
     <artifactId>restclienttest</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 
 ```
