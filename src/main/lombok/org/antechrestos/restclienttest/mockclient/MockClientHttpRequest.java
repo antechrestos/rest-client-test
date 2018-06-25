@@ -85,21 +85,25 @@ class MockClientHttpRequest implements ClientHttpRequest {
 
 	}
 
+	private interface InvalidValueMessageBuilder {
+		String apply(String key, String expected, List<String> got);
+	}
+
 	private void checkQuery() {
 		compareMultiValuedMap(this.context.getQueryParameters(), this.queriedParameters,
 				key -> "Query parameter " + key + " should be set",
-				(key, missingValue) -> "Missing expected value " + missingValue + " for query parameter " + key);
+				(key, missingValue, queriedValues) -> "Missing expected value \"" + missingValue + "\" for query parameter " + key+". Got: "+ queriedValues);
 	}
 
 	private void checkHeaders() {
 		compareMultiValuedMap(this.context.getRequestHeaders(), this.headers,
 				key -> "Header " + key + "should be valued",
-				(key, missingValue) -> "Missing expected value " + missingValue + " for request header " + key);
+				(key, missingValue, queriedValues) -> "Missing expected value \"" + missingValue + "\" for request header " + key+". Got: "+ queriedValues);
 	}
 
 	private void compareMultiValuedMap(Map<String, List<String>> required, Map<String, List<String>> queried,
 			Function<String, String> missingKeyMessageGenerator,
-			BiFunction<String, String, String> badValue) {
+									   InvalidValueMessageBuilder badValue) {
 		required.entrySet().stream()
 				.peek(entry -> assertTrue(missingKeyMessageGenerator.apply(entry.getKey()), queried.containsKey(entry.getKey())))
 				.forEach(entry -> {
@@ -108,7 +112,7 @@ class MockClientHttpRequest implements ClientHttpRequest {
 							.filter(value -> !valuesPresent.contains(value))
 							.findFirst();
 					if (missingValue.isPresent()) {
-						fail(badValue.apply(entry.getKey(), missingValue.get()));
+						fail(badValue.apply(entry.getKey(), missingValue.get(), valuesPresent));
 					}
 				});
 	}

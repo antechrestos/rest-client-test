@@ -21,15 +21,10 @@ import org.antechrestos.restclienttest.context.Payload;
 import org.antechrestos.restclienttest.mockclient.MockClientHttpRequestFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -136,7 +131,7 @@ public class MockClientHttpRequestFactoryTest {
 						.url("http://somewhere.org")
 						.statusCode(HttpStatus.OK)
 						.method(HttpMethod.GET)
-						.requestHeader("some-header", Collections.singletonList("some-other-value"))
+						.requestHeader("some-header", singletonList("some-other-value"))
 						.build()
 		);
 		this.restTemplate.exchange("http://somewhere.org", HttpMethod.GET, new HttpEntity<String>(headers), String.class);
@@ -150,7 +145,7 @@ public class MockClientHttpRequestFactoryTest {
 						.url("http://somewhere.org")
 						.statusCode(HttpStatus.OK)
 						.method(HttpMethod.GET)
-						.requestHeader("some-header", Collections.singletonList("some-value"))
+						.requestHeader("some-header", singletonList("some-value"))
 						.build()
 		);
 		this.restTemplate.exchange("http://somewhere.org", HttpMethod.GET, HttpEntity.EMPTY, String.class);
@@ -164,7 +159,7 @@ public class MockClientHttpRequestFactoryTest {
 						.url("http://somewhere.org")
 						.statusCode(HttpStatus.OK)
 						.method(HttpMethod.GET)
-						.requestHeader("some-header", Collections.singletonList("some-value"))
+						.requestHeader("some-header", singletonList("some-value"))
 						.build()
 		);
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -206,18 +201,33 @@ public class MockClientHttpRequestFactoryTest {
 	}
 
 	@Test(expected = AssertionError.class)
-	public void query_set_by_map_are_checked(){
+	public void query_set_by_map_are_checked_and_fails(){
 		this.clientHttpRequestFactory.register(
 				Context.builder()
 						.url("http://somewhere.org")
-						.queryParameter("param1", Collections.singletonList("value1"))
-						.queryParameter("param2", Collections.singletonList("value2"))
+						.queryParameter("param1", singletonList("value1"))
+						.queryParameter("param2", singletonList("value2"))
 						.statusCode(HttpStatus.OK)
 						.method(HttpMethod.GET)
 						.build()
 		);
 		//here we submit a bad value
 		this.restTemplate.exchange("http://somewhere.org?param1=value1&param2=value3", HttpMethod.GET, HttpEntity.EMPTY, String.class);
+	}
+
+	@Test
+	public void query_set_by_map_are_checked_and_succeed(){
+		this.clientHttpRequestFactory.register(
+				Context.builder()
+						.url("http://somewhere.org/ids/toto")
+						.queryParameter("param1", singletonList("2018-06-25T04:30:00.000Z"))
+						.queryParameter("param2", singletonList("value2"))
+						.statusCode(HttpStatus.OK)
+						.method(HttpMethod.GET)
+						.build()
+		);
+		this.restTemplate.exchange("http://somewhere.org/ids/{id}?param1={value_param_1}&param2={value_param_2}",
+                HttpMethod.GET, HttpEntity.EMPTY, String.class, "toto", "2018-06-25T04:30:00.000Z", "value2");
 	}
 
 	@Test
